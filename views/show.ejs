@@ -1,4 +1,6 @@
-<% include partials/header %>
+<% include ./partials/header %>
+
+
 <h1>
 	<%= campground.name%>
 </h1>
@@ -7,4 +9,12 @@
 <p>
 	<%= campground.description %>
 </p>
-<% include partials/footer %>
+<% campground.comments.forEach(function(comment){%>
+	<p>
+		<strong><%= comment.author %></strong> - <%= comment.text %>	
+	</p>
+<% }) %>
+
+
+
+<% include ./partials/footer %>
