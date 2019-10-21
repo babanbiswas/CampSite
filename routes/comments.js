@@ -1,14 +1,11 @@
 var express = require("express");
-var router = express.Router();
+var router = express.Router({mergeParams: true});
 var Campground = require("../models/campground");
 var Comment = require("../models/comment");
 
-//Comments Route
-//==========================
-
-//Create Route -- comment create
+//Comments new
 // isLoggedIn - middle are -- if user logged in then only he /she can make comments
-router.get("/campgrounds/:id/comments/new",isLoggedIn, function(req,res){
+router.get("/new",isLoggedIn, function(req,res){
 	//find campground by id
 	Campground.findById(req.params.id, function(err, campground){
 		if(err){
@@ -21,7 +18,8 @@ router.get("/campgrounds/:id/comments/new",isLoggedIn, function(req,res){
 });
 	
 //Post route -- Comment will posted here
-router.post("/campgrounds/:id/comments", isLoggedIn, function(req,res){
+//comments create
+router.post("/", isLoggedIn, function(req,res){
 	//Lookup campground using ID
 	Campground.findById(req.params.id,function(err, campground){
 		if(err){
@@ -39,11 +37,7 @@ router.post("/campgrounds/:id/comments", isLoggedIn, function(req,res){
 			});
 		}
 	});
-	//create new comment
 	
-	//connect new comment to campground
-	
-	//redirect campground show page
 });
 function isLoggedIn(req, res, next){
 	if(req.isAuthenticated()){

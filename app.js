@@ -1,16 +1,17 @@
-var express = require("express");
-var app = express();
-var bodyParser = require("body-parser");
-var mongoose = require("mongoose");
-var passport = require("passport");
-var localStrategy = require("passport-local");
-var Campground = require("./models/campground");
-var seedDB = require("./seeds");
+var express 		= require("express"),
+	app 			= express(),
+	bodyParser 		= require("body-parser"),
+	mongoose 		= require("mongoose"),
+	passport 		= require("passport"),
+	localStrategy 	= require("passport-local"),
+	Campground 		= require("./models/campground"),
+	seedDB 			= require("./seeds");
 
-var Comment = require("./models/comment");
-var User    = require("./models/user");
+//requiring models
+var Comment  = require("./models/comment"),
+	 User    = require("./models/user");
 
-
+//requiring routes
 var commentRoutes  		=  require("./routes/comments"),
 	campgroundRoutes	= require("./routes/campgrounds"),
 	indexRoutes			= require("./routes/index");
@@ -24,19 +25,7 @@ app.use(express.static(__dirname + "/public"));
 console.log(__dirname);
 
 
-//Campground.create({
-	//name:"Dodabeta Top",
-	//image:"https://pixabay.com/get/57e8d1454b56ae14f6da8c7dda793f7f1636dfe2564c704c73267bd1904bc15a_340.jpg"
-//},
-//function(err,Campground){
-	//if(err){
-		//console.log(err);
-	//}
-	//else{
-		//console.log("Newly added campground :");
-		//console.log(Campground);
-	//}
-//});
+
 
 // PASSPORT CONFIGURATION
 app.use(require("express-session")({
@@ -57,9 +46,12 @@ app.use(function(req,res,next){
 	next();
 });
 
-app.use(indexRoutes);
-app.use(campgroundRoutes);
-app.use(commentRoutes);
+//for index routes "/" will be added in fron of every routes
+app.use("/",indexRoutes);
+//for campgroundRoutes "/campgrounds" will be added in front of every rotes
+app.use("/campgrounds",campgroundRoutes);
+//for commentRoutes "/campgrounds/:id/comments" will be added in front of every rotes
+app.use("/campgrounds/:id/comments",commentRoutes);
 
 app.listen(process.env.PORT||3000,process.env.IP,function(){
 	console.log("Yelpcamp server has started");
