@@ -20,7 +20,16 @@ var commentRoutes  		=  require("./routes/comments"),
 
 
 // seedDB(); //seed the database
-mongoose.connect("mongodb://localhost/yelp_camp",{useNewUrlParser:true, useUnifiedTopology:true});
+//mongoose.connect("mongodb://localhost/yelp_camp",{useNewUrlParser:true, useUnifiedTopology:true});
+var dbstr = "mongodb+srv://babanbiswas:" + encodeURIComponent("Sept2019#") + "@cluster0-wegsi.mongodb.net/test?retryWrites=true&w=majority";
+//mongoose.connect("mongodb://localhost/rest",{useNewUrlParser:true,useUnifiedTopology:true});
+mongoose.connect(dbstr,{useNewUrlParser:true,
+useUnifiedTopology:true,
+useCreateIndex:true																												   }).then(() => {
+	console.log("Connected to Database");
+}).catch(err => {
+	console.log("Error :",err.message);
+});
 app.use(bodyParser.urlencoded({extended:true}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
